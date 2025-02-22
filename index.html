@@ -1,19 +1,44 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebAR with YouTube iFrame</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ar.js@1.7.2/aframe-ar.min.js"></script>
-</head>
-<body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs>
-        <a-video 
-            src="https://youtu.be/MH_Utyy3pa0" 
-            position="0 0 -3" 
-            width="4" 
-            height="2.5"
-            autoplay 
-            loop>
-        </a-video>
+    <!-- AR.js for A-Frame -->
+    <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
+    <!-- A-Frame HTML Shader -->
+    <script src="https://unpkg.com/aframe-html-shader@1.1.0/dist/aframe-html-shader.min.js"></script>
+    <style>
+      body { margin: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <!-- The hidden iframe element which will be rendered as texture -->
+    <div id="videoContent" style="width: 640px; height: 360px;">
+      <iframe 
+        width="640" 
+        height="360" 
+        src="https://www.youtube.com/embed/MH_Utyy3pa0?autoplay=1" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <a-scene embedded arjs="trackingMethod: best;" vr-mode-ui="enabled: false">
+      <!-- Marker setup -->
+      <a-marker-camera preset="hiro"></a-marker-camera>
+
+      <!-- Plane that displays the iframe as a texture -->
+      <a-plane 
+        position="0 0 0" 
+        rotation="-90 0 0" 
+        width="2" 
+        height="1.125" 
+        material="shader: html; target: #videoContent">
+      </a-plane>
     </a-scene>
-</body>
+  </body>
 </html>
